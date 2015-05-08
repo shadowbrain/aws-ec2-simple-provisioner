@@ -6,13 +6,13 @@ export LANG=C
 
 USAGE='Usage: ec2.sh <app_name> <environment> <number_of_instances> <instance_size>'
 
-[[ ${#1} -gt 0 ]] && app="$1" || echo $USAGE
+[[ ${#1} -gt 0 ]] && app="$1" || (echo $USAGE;exit 1)
 
-[[ ${#2} -gt 0 ]] && envmnt="$2" || echo $USAGE
+[[ ${#2} -gt 0 ]] && envmnt="$2" || (echo $USAGE;exit 1)
 
-[[ ${#3} -gt 0 ]] && numInst="$3" || echo $USAGE
+[[ ${#3} -gt 0 ]] && numInst="$3" || (echo $USAGE;exit 1)
 
-[[ ${#4} -gt 0 ]] && sizeInst="$4" || echo $USAGE
+[[ ${#4} -gt 0 ]] && sizeInst="$4" || (echo $USAGE;exit 1)
 
 # launch new Ubuntu 14.04 LTS x64 instances
 
