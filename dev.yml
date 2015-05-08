@@ -7,12 +7,28 @@
     app: 'devops_blog'
   tasks:
     - name: Install nginx
-      apt: pkg="nginx" state=installed
+      apt: pkg="nginx" state=installed update_cache=yes
+
     - name: Install uwsgi
-      apt: pkg="uwsgi" state=installed
+      apt: pkg="uwsgi" state=installed update_cache=yes
+
     - name: Deploy application code
       git:
         repo: "git@github.com/vitalco/{{ app }}"
-        dest: "/home/ubuntu/{{ app }}"
+        dest: "/var/www/{{ app }}"
         version: "{{ git_branch | default('master') }}"
         accept_hostkey: yes
+
+    - name: Configure nginx to uwsgi
+      template:
+        src: nginx-uwsgi.conf.j2
+        dest: /etc/nginx/sites-enabled/uwsgi.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Restart nginx
+      service: name=nginx state=restarted
+
+    - name: Launch uwsgi app
+      command: uwsgi -s /tmp/uwsgi.socket -w application:app
