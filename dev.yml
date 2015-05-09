@@ -14,7 +14,7 @@
 
     - name: Deploy application code
       git:
-        repo: "git@github.com/vitalco/{{ app }}"
+        repo: "git@github.com/shadowbrain/{{ app }}"
         dest: "/var/www/{{ app }}"
         version: "{{ git_branch | default('master') }}"
         accept_hostkey: yes
